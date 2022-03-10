@@ -1,0 +1,52 @@
+{
+  "name": "esd",
+  "version": "1.0.0",
+  "description": "ESD Application",
+  "main": "main.js",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "chokidar": "^3.5.2",
+    "connect-flash": "^0.1.1",
+    "connect-mongodb-session": "^3.0.0",
+    "csvtojson": "^2.0.10",
+    "directory-watcher": "^2.0.3",
+    "express": "^4.17.1",
+    "express-messages": "^1.0.1",
+    "express-session": "^1.17.2",
+    "fs-extra": "^10.0.0",
+    "install": "^0.13.0",
+    "jade": "^1.11.0",
+    "mongoose": "^5.13.8",
+    "node-pdf-printer": "^1.1.7",
+    "nodemailer": "^6.6.5",
+    "passport": "^0.4.1",
+    "passport-local": "^1.0.0",
+    "pdf-lib": "^1.16.0",
+    "pdf-parse": "^1.1.1",
+    "pdf-to-printer": "^4.0.0",
+    "pusher": "^5.0.0",
+    "socket.io": "^4.2.0"
+  },
+  "devDependencies": {
+    "electron": "^13.1.7",
+    "electron-builder": "^22.11.7",
+    "electron-reloader": "^1.2.1"
+  },
+  "scripts": {
+    "start": "electron .",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder -w"
+  },
+  "keywords": [],
+  "build": {
+    "appId": "com.esd.fileO",
+    "win": {
+      "target": "nsis",
+      "icon": "build/icon.ico",
+      "legalTrademarks": "(c) 2021 www.tierdata.co.ke",
+      "publisherName": "www.tierdata.co.ke"
+    }
+  },
+  "author": "Tier Data Limited Company",
+  "license": "ISC"
+}

@@ -1,0 +1,200 @@
+doctype html
+html(lang='en' dir='')
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width,initial-scale=1')
+    meta(http-equiv='X-UA-Compatible' content='ie=edge')
+    title Settings | ESD Application 
+    link(rel='shortcut icon' href='/auth/assets/img/icon.png' type='image/x-icon')
+    link(href='https://fonts.googleapis.com/css?family=Nunito:300,400,400i,600,700,800,900' rel='stylesheet')
+    link(href='https://app.revenuestadia.com/accounts/dist-assets/css/themes/lite-blue.min.css' rel='stylesheet')
+    link(href='https://app.revenuestadia.com/accounts/dist-assets/css/plugins/perfect-scrollbar.min.css' rel='stylesheet')
+    link(rel="stylesheet", href="https://app.revenuestadia.com/accounts/dist-assets/css/plugins/datatables.min.css" )
+    
+  body.text-left
+    .app-admin-wrap.layout-sidebar-large
+      .main-header
+        .logo
+          img(src='https://i.pinimg.com/originals/38/87/3d/38873dc2b35fc18242944c2fab685192.jpg' style='width:70%;height:80%;object-fit: cover;' alt='')
+       
+        .menu-toggle
+          div
+          div
+          div
+        .d-flex.align-items-center
+          
+         
+        div(style='margin: auto')
+        .header-part-right
+          // Full screen toggle
+          i.i-Full-Screen.header-icon.d-none.d-sm-inline-block(data-fullscreen='')
+          
+          
+          .dropdown
+            .user.col.align-self-end
+              img#userDropdown(src='https://img.pngio.com/avatar-icon-flat-avatar-png-256_256.png' alt='' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false')
+              .dropdown-menu.dropdown-menu-right(aria-labelledby='userDropdown')
+                .dropdown-header
+                  i.i-Lock-User.mr-1
+                  | #{user.fullname} 
+                
+                a.dropdown-item(href='/logout') Sign out
+      .side-content-wrap
+        .sidebar-left.open.rtl-ps-none(data-perfect-scrollbar='' data-suppress-scroll-x='true')
+          ul.navigation-left
+            li.nav-item
+              a.nav-item-hold(href='/admin/')
+                i.nav-icon.i-Business-Mens
+                span.nav-text Partners 
+              .triangle
+            li.nav-item
+              a.nav-item-hold(href='/admin/queue')
+                i.nav-icon.i-Reload1
+                span.nav-text Queue
+              .triangle
+            li.nav-item
+              a.nav-item-hold(href='/admin/settings')
+                i.nav-icon.i-Gear
+                span.nav-text Settings
+              .triangle
+        
+        .main-content-wrap.sidenav-open.d-flex.flex-column
+          != messages('message', locals)
+          .card 
+            .card-header 
+              strong Settings
+              
+            .card-body
+             .row 
+              .col-md-6
+                .card 
+                 .card-header 
+                  
+                   strong Configuration
+                 .card-body
+                  .row 
+                   .col-md-12 
+                     form.form(action="/admin/add_path",method='POST') 
+                        .form-group 
+                         label(for="") ESD Folder Path: 
+                         input.form-control(type="text",name='esd',value=`${path? path.esd: ``}`, required) 
+                        .form-group 
+                         label(for="") PDF Folder Path: 
+                         input.form-control(type="text",name='pdf',value=`${path? path.pdf: ``}`, required) 
+                        .form-group 
+                         label(for="") Save Folder Path: 
+                         input.form-control(type="text",name='saveFolder',value=`${path? path.saveFolder: ``}`, required) 
+                        .form-group 
+                         label(for="") Printer Name: 
+                         input.form-control(type="text",name='printer', value=`${path? path.printer: ``}`,required) 
+                        .form-group 
+                         label(for="") Default Email: 
+                         input.form-control(type="email",name='email',value=`${path? path.email: ``}` required)
+                        .form-group 
+                         label(for="") Message: 
+                         textarea.form-control(name="message", cols="30", rows="10") 
+                          | #{path ? path.message: ``}  
+                        .form-group 
+                         button.btn.btn-primary Save
+              .col-md-6 
+                .card 
+                  .card-header 
+                    
+                       strong Info
+                  .card-body
+                      ul.list-group 
+                       if !path 
+                         div(style='text-align:center') 
+                          | No Data Found.
+                       if path
+                        li.list-group-item 
+                         p ESD Folder Path: #{path.esd} 
+                        li.list-group-item 
+                         p PDF Folder Path: #{path.pdf}
+                        li.list-group-item 
+                         p Save Folder Path: #{path.saveFolder} 
+                        li.list-group-item 
+                         p Printer: #{path.printer}
+                        li.list-group-item 
+                         p Default Email: #{path.email}  
+             hr
+             .row(style='margin-bottom:100px') 
+              .col-md-6
+                .card 
+                 .card-header 
+                   
+                   strong Email Configuration
+                 .card-body
+                  .row 
+                   .col-md-12 
+                     form.form(action="/admin/add_email_conf",method='POST') 
+                        .form-group 
+                         label(for="") Email: 
+                         input.form-control(type="email",name='email',value=`${email? email.email: ``}`, required) 
+                        .form-group 
+                         label(for="") Port: 
+                         input.form-control(type="number",min=0,name='port',value=`${email? email.port: ``}`, required) 
+                        .form-group 
+                         label(for="") Host: 
+                         select.form-control(type="text",name='host',required)
+                           if !email 
+                            option(value="") -- Select -- 
+                            option(value="smtp-mail.outlook.com") smtp-mail.outlook.com 
+                            option(value="smtp.gmail.com") smtp.gmail.com
+                            option(value="smtp.zoho.com") smtp.zoho.com 
+                           if email
+                              if email.host === ''
+                               option(value="") Choose one option 
+                              if email.host !== ''
+                               option(value=email.host) #{email.host}
+                              each x in [ "smtp-mail.outlook.com","smtp.gmail.com","smtp.zoho.com" ]
+                                if x !== email.host
+                                 option(value="#{x}") #{x}
+                        .form-group 
+                         label(for="") Password: 
+                         input.form-control(type="password",name='password',value=`${email? email.password: ``}` required) 
+                        .form-group 
+                         button.btn.btn-primary Save
+              .col-md-6 
+                .card 
+                  .card-header 
+                    
+                       strong Info
+                  .card-body
+                      ul.list-group 
+                       if !email 
+                         div(style='text-align:center') 
+                          | No Data Found.
+                       if email
+                        li.list-group-item 
+                         p Email: #{email.email} 
+                        li.list-group-item 
+                         p Port: #{email.port} 
+                        li.list-group-item 
+                         p Host: #{email.host}
+                        li.list-group-item 
+                         p Password: ****  
+                              
+               
+                
+                
+             
+            
+            
+           
+  
+                 
+        
+                 
+  script(src='https://app.revenuestadia.com/accounts/dist-assets/js/plugins/jquery-3.3.1.min.js')
+  script(src='https://app.revenuestadia.com/accounts/dist-assets/js/plugins/bootstrap.bundle.min.js')
+  script(src='https://app.revenuestadia.com/accounts/dist-assets/js/plugins/perfect-scrollbar.min.js')
+  script(src='https://app.revenuestadia.com/accounts/dist-assets/js/scripts/script.min.js')
+  script(src='https://app.revenuestadia.com/accounts/dist-assets/js/scripts/sidebar.large.script.min.js')
+  script(src='https://app.revenuestadia.com/accounts/dist-assets/js/plugins/datatables.min.js')
+  script(src='https://app.revenuestadia.com/accounts/dist-assets/js/scripts/datatables.script.min.js')
+  script(src='https://app.revenuestadia.com/accounts/dist-assets/js/scripts/customizer.script.min.js')
+  
+
+
+

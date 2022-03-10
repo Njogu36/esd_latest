@@ -1,0 +1,4 @@
+function end_session()
+{
+    
+}
